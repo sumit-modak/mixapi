@@ -8,7 +8,7 @@ pub struct SomeStruct {
     food: String,
 }
 
-pub async fn get_headers(headers: HeaderMap) -> Json<SomeStruct> {
+pub async fn extract_headers(headers: HeaderMap) -> Json<SomeStruct> {
     Json(SomeStruct {
         accept: headers.get("accept").unwrap().to_str().unwrap().to_string(),
         user_agent: headers

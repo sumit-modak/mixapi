@@ -2,7 +2,7 @@ use axum::extract::{Json, Request};
 use serde::Serialize;
 
 #[derive(Serialize)]
-pub struct ServRes {
+pub struct MyJson {
     method: String,
     uri: String,
     // version:
@@ -11,9 +11,9 @@ pub struct ServRes {
 }
 
 // #[axum::debug_handler]
-pub async fn request(req: Request) -> Json<ServRes> {
+pub async fn body_as_json(req: Request) -> Json<MyJson> {
     println!("{req:#?}");
-    Json(ServRes {
+    Json(MyJson {
         method: req.method().to_string(),
         uri: req.uri().to_string(),
         // body: req.body().to_string(),
