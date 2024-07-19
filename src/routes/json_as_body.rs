@@ -11,7 +11,7 @@ pub struct MyJson {
 }
 
 // #[axum::debug_handler]
-pub async fn body_as_json(req: Request) -> Json<MyJson> {
+pub async fn json_as_body(req: Request) -> Json<MyJson> {
     println!("{req:#?}");
     Json(MyJson {
         method: req.method().to_string(),

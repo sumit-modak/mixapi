@@ -1,4 +1,9 @@
-use axum::{http::HeaderMap, Json};
+use axum::{
+    extract::Request,
+    http::HeaderMap,
+    response::{Html, Response},
+    Json,
+};
 use serde::Serialize;
 
 #[derive(Serialize)]
@@ -19,4 +24,10 @@ pub async fn extract_headers(headers: HeaderMap) -> Json<SomeStruct> {
             .to_string(),
         food: "bread".to_string(),
     })
+}
+
+pub async fn set_headers(mut req: Request) -> Html<String> {
+    let h = req.headers_mut();
+    println!("{req:#?}");
+    Html("hello world".to_string())
 }
