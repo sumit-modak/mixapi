@@ -1,11 +1,11 @@
-mod body_as_bytes;
-mod body_as_string;
-mod get_html;
+mod bytes;
 mod headers;
-mod html_as_body;
-mod json_as_body;
+mod html;
+mod into_resp;
+mod json;
 mod middleware;
 mod params;
+mod string;
 
 ///////////////////////////////////////////////////////////////
 
@@ -29,19 +29,27 @@ pub fn all_routes() -> Router {
         .allow_origin(Any);
 
     Router::new()
-        .route("/get_html", get(get_html::handler))
+        // sending different body types
+        .route("/string", get(string::body_as_string))
+        .route("/bytes", get(bytes::body_as_bytes))
+        .route("/send/html", get(html::send_html))
+        .route("/get_html", get(html::handler))
+        .route("/send/json", get(json::send_json))
+        .route("/extract/json", post(json::extract_json))
         // uri
         .route("/path_params/:user", get(params::path_params))
         .route("/path_params/:p1/:p2", get(params::path_params2))
         .route("/query_params", get(params::query_params))
+        .route("/query_params2", get(params::query_params2))
+        .route("/types_of_path/:hello", get(params::types_of_path))
         // headers
         .route("/extract_headers", get(headers::extract_headers))
         .route("/set_headers", get(headers::set_headers))
-        // sending different body types
-        .route("/body_as_string", post(body_as_string::body_as_string))
-        .route("/body_as_bytes", post(body_as_bytes::body_as_bytes))
-        .route("/html_as_body", post(html_as_body::html_as_body))
-        .route("/json_as_body", post(json_as_body::json_as_body))
+        .route("/extract_host", get(headers::extract_host))
+        .route("/array_headers", get(headers::array_headers))
+        // into response
+        .route("/response/tuple", get(into_resp::all_the_things))
+        .route("/response/builder", get(into_resp::new_response))
         // middleware routes
         .route("/middleware_msg", get(middleware::middleware_msg))
         .route("/read_mw_custom_hdr", get(middleware::read_mw_custom_hdr))

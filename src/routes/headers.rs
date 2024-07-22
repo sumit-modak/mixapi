@@ -1,7 +1,8 @@
+use axum::http::{header, HeaderName};
 use axum::{
-    extract::Request,
+    extract::{Host, Request},
     http::HeaderMap,
-    response::{Html, Response},
+    response::Html,
     Json,
 };
 use serde::Serialize;
@@ -26,8 +27,25 @@ pub async fn extract_headers(headers: HeaderMap) -> Json<SomeStruct> {
     })
 }
 
+///////////////////////////////////////////////////////////////
+
 pub async fn set_headers(mut req: Request) -> Html<String> {
     let h = req.headers_mut();
     println!("{req:#?}");
     Html("hello world".to_string())
+}
+
+///////////////////////////////////////////////////////////////
+
+pub async fn extract_host(Host(host): Host) -> Html<String> {
+    Html(host)
+}
+
+///////////////////////////////////////////////////////////////
+
+pub async fn array_headers() -> [(HeaderName, &'static str); 2] {
+    [
+        (header::SERVER, "axum"),
+        (header::CONTENT_TYPE, "text/plain"),
+    ]
 }
