@@ -6,6 +6,7 @@ mod json;
 mod middleware;
 mod params;
 mod string;
+mod websock;
 
 ///////////////////////////////////////////////////////////////
 
@@ -24,7 +25,7 @@ pub struct SharedData {
 }
 
 pub fn all_routes() -> Router {
-    let cors = CorsLayer::new()
+    let _cors = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST])
         .allow_origin(Any);
 
@@ -41,21 +42,28 @@ pub fn all_routes() -> Router {
         .route("/path_params/:p1/:p2", get(params::path_params2))
         .route("/query_params", get(params::query_params))
         .route("/query_params2", get(params::query_params2))
+        .route("/query_params3", get(params::query_params3))
         .route("/types_of_path/:hello", get(params::types_of_path))
         // headers
         .route("/extract_headers", get(headers::extract_headers))
         .route("/set_headers", get(headers::set_headers))
         .route("/extract_host", get(headers::extract_host))
         .route("/array_headers", get(headers::array_headers))
+        .route("/append_headers", get(headers::append_headers))
         // into response
         .route("/response/tuple", get(into_resp::all_the_things))
         .route("/response/builder", get(into_resp::new_response))
+        .route("/response/error", get(into_resp::always_error))
+        .route("/response/shit", get(into_resp::body_n_status))
         // middleware routes
         .route("/middleware_msg", get(middleware::middleware_msg))
         .route("/read_mw_custom_hdr", get(middleware::read_mw_custom_hdr))
+        // websockets
+        .route("/websock", get(websock::handler))
+        .route("/websock2", get(websock::ws_handler))
         // middleware
         .layer(Extension(SharedData {
             message: "this message is shared with all routes".to_string(),
         }))
-        .layer(cors)
+    // .layer(cors)
 }

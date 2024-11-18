@@ -1,8 +1,7 @@
-use axum::http::{header, HeaderName};
 use axum::{
     extract::{Host, Request},
-    http::HeaderMap,
-    response::Html,
+    http::{header, HeaderMap, HeaderName, StatusCode},
+    response::{AppendHeaders, Html, IntoResponse},
     Json,
 };
 use serde::Serialize;
@@ -29,10 +28,12 @@ pub async fn extract_headers(headers: HeaderMap) -> Json<SomeStruct> {
 
 ///////////////////////////////////////////////////////////////
 
-pub async fn set_headers(mut req: Request) -> Html<String> {
-    let h = req.headers_mut();
-    println!("{req:#?}");
-    Html("hello world".to_string())
+pub async fn set_headers(mut req: Request) -> (StatusCode, HeaderMap, Html<String>) {
+    let mut h = req.headers_mut().to_owned();
+    println!("{h:?}");
+    h.append("foo", "bar".parse().unwrap());
+
+    (StatusCode::OK, h, Html("hello world".to_string()))
 }
 
 ///////////////////////////////////////////////////////////////
@@ -48,4 +49,13 @@ pub async fn array_headers() -> [(HeaderName, &'static str); 2] {
         (header::SERVER, "axum"),
         (header::CONTENT_TYPE, "text/plain"),
     ]
+}
+
+///////////////////////////////////////////////////////////////
+
+pub async fn append_headers() -> impl IntoResponse {
+    AppendHeaders([
+        (header::SET_COOKIE, "foo=bar"),
+        (header::SET_COOKIE, "baz=qux"),
+    ])
 }

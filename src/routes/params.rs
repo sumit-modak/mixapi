@@ -1,5 +1,9 @@
+use std::collections::HashMap;
+
 use axum::{
+    body::Body,
     extract::{MatchedPath, NestedPath, Path, Query},
+    http::{Response, StatusCode},
     response::{Html, Json},
 };
 use serde::{Deserialize, Serialize};
@@ -38,6 +42,18 @@ pub struct ServerRes2(String, String, i64);
 pub async fn query_params2(Query(q): Query<ServerReq2>) -> Json<ServerRes2> {
     Json(ServerRes2(q.0, q.1, 293092838478))
 }
+
+///////////////////////////////////////////////////////////////
+
+pub async fn query_params3(Query(q): Query<HashMap<String, String>>) -> Response<Body> {
+    println!("{q:?}");
+    Response::builder()
+        .status(StatusCode::OK)
+        .header("X", "")
+        .body(Body::from(""))
+        .unwrap()
+}
+
 ///////////////////////////////////////////////////////////////
 
 pub async fn path_params(Path(path): Path<usize>) -> Html<String> {
