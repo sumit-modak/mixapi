@@ -67,3 +67,15 @@ pub fn all_routes() -> Router {
         }))
     // .layer(cors)
 }
+
+pub async fn main(args: crate::args::WebArgs, cfg: &mut crate::AppConfig) {
+    let app = all_routes();
+
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+        .await
+        .unwrap();
+
+    println!("[-] listening on {}", listener.local_addr().unwrap());
+
+    axum::serve(listener, app).await.unwrap();
+}
