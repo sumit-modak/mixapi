@@ -1,9 +1,10 @@
 pub mod args;
 pub mod routes;
 pub mod sys;
+pub mod tui;
 
 // temporary test modules
-pub mod temp_cli;
+pub mod temp;
 
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct AppConfig {
