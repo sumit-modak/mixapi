@@ -36,7 +36,7 @@ pub(crate) fn formatted_memory(kb: u64) -> String {
     format!("{gib}G {mib}M {kib}K {bytes}B")
 }
 
-pub async fn main(args: crate::args::SysArgs, cfg: &mut crate::AppConfig) {
+pub async fn main(_args: crate::args::SysArgs, _cfg: &mut crate::AppConfig) {
     let mut response = String::with_capacity(1024);
 
     response.push_str(&fetch_prompt());

@@ -1,7 +1,3 @@
-pub mod conf;
-pub mod init;
-pub mod update;
-
 use anyhow::Result;
 use clap::{Args, Parser, Subcommand};
 
@@ -98,18 +94,13 @@ fn redact_str(text: &str) -> String {
     result
 }
 
-pub fn init_main(args: &InitArgs, cfg: &mut crate::AppConfig) -> Result<()> {
+pub fn init_main(args: &InitArgs, _cfg: &mut crate::AppConfig) -> Result<()> {
     if args.db_conn_str == "" {
         println!("please provide the db connection string");
         return Ok(());
     }
 
-    let mut config = crate::AppConfig::new();
-    config
-        .set_db_conn_str(&args.db_conn_str)
-        .set_config_path(&args.default_path)
-        .build();
-    cfg.update(&config);
+    let mut _config = crate::AppConfig::new();
     println!("from the init command");
     Ok(())
 }

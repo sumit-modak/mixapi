@@ -3,7 +3,7 @@ use clap::{Args, Parser, Subcommand};
 #[derive(Parser)]
 #[command(version, propagate_version = true)]
 #[command(
-    about = "A cli app made up of axum, ratatui and std",
+    about = "A cli app made up of clap, axum and ratatui",
     long_about = None,
 )]
 pub struct CliArgs {
@@ -42,10 +42,10 @@ pub async fn redirect(mut cfg: &mut crate::AppConfig) -> anyhow::Result<()> {
 
     match cli.command {
         Commands::Web(args) => {
-            crate::routes::main(args, &mut cfg).await;
+            crate::web::main(args, &mut cfg).await;
         }
-        Commands::Tui(_args) => {
-            // crate::tui::main(args, &mut cfg)?;
+        Commands::Tui(args) => {
+            crate::tui::main(args, &mut cfg)?;
         }
         Commands::Sys(args) => {
             crate::sys::main(args, &mut cfg).await;

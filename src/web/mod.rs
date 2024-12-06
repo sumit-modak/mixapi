@@ -68,7 +68,7 @@ pub fn all_routes() -> Router {
     // .layer(cors)
 }
 
-pub async fn main(args: crate::args::WebArgs, cfg: &mut crate::AppConfig) {
+pub async fn main(_args: crate::args::WebArgs, _cfg: &mut crate::AppConfig) {
     let app = all_routes();
 
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")

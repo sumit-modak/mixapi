@@ -1,4 +1,4 @@
-use crate::routes::SharedData;
+use crate::web::SharedData;
 use axum::Extension;
 
 // shared data is set on layer
@@ -15,7 +15,3 @@ pub struct HeaderMessage(pub String);
 pub async fn read_mw_custom_hdr(Extension(msg): Extension<HeaderMessage>) -> String {
     msg.0
 }
-
-///////////////////////////////////////////////////////////////
-
-pub async fn set_mw_custom_hdr() {}
