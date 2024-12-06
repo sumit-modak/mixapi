@@ -1,8 +1,8 @@
-use super::app::App;
-use super::data::Data;
+use super::layoutdata::LayoutData;
+use super::tuistate::TuiState;
 use crossterm::event::{self, Event, KeyCode, KeyEventKind};
 
-pub fn update(data: &Data, app: &mut App) -> anyhow::Result<()> {
+pub fn update(_data: &LayoutData, app: &mut TuiState) -> anyhow::Result<()> {
     if event::poll(std::time::Duration::from_millis(250))? {
         if let Event::Key(key) = event::read()? {
             if key.kind == KeyEventKind::Press {

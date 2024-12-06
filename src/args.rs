@@ -30,7 +30,9 @@ pub struct WebArgs {}
 
 #[derive(Debug, Args)]
 #[command(version, about, long_about = None)]
-pub struct TuiArgs {}
+pub struct TuiArgs {
+    pub layout: String,
+}
 
 #[derive(Debug, Args)]
 #[command(version, about, long_about = None)]

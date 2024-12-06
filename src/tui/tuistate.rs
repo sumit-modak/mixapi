@@ -1,9 +1,9 @@
-use super::data::Data;
+use super::layoutdata::LayoutData;
 use ratatui::layout::Rect;
 use std::collections::VecDeque;
 
 #[derive(Default)]
-pub struct App<'a> {
+pub struct TuiState<'a> {
     qd: VecDeque<&'a String>,
     qt: VecDeque<&'a String>,
     pub dline: [String; 3],
@@ -16,15 +16,15 @@ pub struct App<'a> {
     // rect_pos: HashMap<u8, (u8, Rect)>,
 }
 
-impl<'a> App<'a> {
-    pub fn new(data: &'a Data, frame_width: u16) -> App<'a> {
-        let x = App::set_max_line_len(frame_width) as usize;
+impl<'a> TuiState<'a> {
+    pub fn new(data: &'a LayoutData, frame_width: u16) -> TuiState<'a> {
+        let x = TuiState::set_max_line_len(frame_width) as usize;
         let line = [
             String::with_capacity(x + 1),
             String::with_capacity(x + 1),
             String::with_capacity(x + 1),
         ];
-        let mut app = App {
+        let mut app = TuiState {
             qd: VecDeque::with_capacity(x),
             qt: VecDeque::with_capacity(x),
             dline: line.clone(),
@@ -36,7 +36,7 @@ impl<'a> App<'a> {
             quit: false,
         };
         for _ in app.qd.len()..app.qd.capacity() {
-            let (a, b) = data.get_pair();
+            let (a, b) = data.get_random_pair();
             app.qd.push_back(a);
             app.qt.push_back(b);
         }
@@ -88,12 +88,12 @@ impl<'a> App<'a> {
         }
     }
 
-    pub fn sync_on_line_end(&mut self, data: &'a Data) {
+    pub fn sync_on_line_end(&mut self, data: &'a LayoutData) {
         // syncing word queue(app) in App
         for _ in 0..=self.line_word_index {
             self.qd.pop_front();
             self.qt.pop_front();
-            let (a, b) = data.get_pair();
+            let (a, b) = data.get_random_pair();
             self.qd.push_back(a);
             self.qt.push_back(b);
         }
@@ -110,7 +110,7 @@ impl<'a> App<'a> {
     }
 
     pub fn sync_on_resize(&mut self, frame_width: u16) {
-        self.max_line_len = App::set_max_line_len(frame_width);
+        self.max_line_len = TuiState::set_max_line_len(frame_width);
         for i in 0..self.dline.len() {
             self.set_line(i);
         }

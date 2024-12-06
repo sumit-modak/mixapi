@@ -1,5 +1,5 @@
-use super::app::App;
-use super::data::Data;
+use super::layoutdata::LayoutData;
+use super::tuistate::TuiState;
 use ratatui::{
     layout::{Constraint, Layout, Rect},
     prelude::Direction,
@@ -37,7 +37,7 @@ impl RenderCustomBlocks for Rect {
     }
 }
 
-pub fn render(data: &Data, app: &App, frame: &mut Frame) {
+pub fn render(data: &LayoutData, app: &TuiState, frame: &mut Frame) {
     let layout = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
@@ -45,7 +45,7 @@ pub fn render(data: &Data, app: &App, frame: &mut Frame) {
             Constraint::Percentage(25),
             Constraint::Percentage(25),
         ])
-        .split(frame.size());
+        .split(frame.area());
 
     let wq_target_block = Layout::default()
         .direction(Direction::Horizontal)
@@ -206,7 +206,7 @@ pub fn render_word_pair(frame: &mut Frame, r: Rect) {
     r.render_normal_border(frame, &Color::Rgb(196, 196, 196), &Color::Rgb(64, 64, 64));
 }
 
-pub fn render_lines(frame: &mut Frame, lt: &Rc<[Rect]>, ld: &Rc<[Rect]>, q: &App, lno: usize) {
+pub fn render_lines(frame: &mut Frame, lt: &Rc<[Rect]>, ld: &Rc<[Rect]>, q: &TuiState, lno: usize) {
     frame.render_widget(
         Paragraph::new(&q.tline[lno] as &str)
             .fg(Color::Rgb(255, 211, 0))
