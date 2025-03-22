@@ -13,13 +13,12 @@ pub struct LayoutData {
 
 impl LayoutData {
     pub fn new(a: String) -> Result<LayoutData, &'static str> {
-        let target_layout = match std::fs::read_to_string(format!("utils/layouts/{a}")) {
-            Ok(layout) => layout,
-            Err(_) => return Err("Layout Not Found"),
+        let Ok(target_layout) = std::fs::read_to_string(format!("utils/layouts/{a}")) else {
+            return Err("Layout Not Found");
         };
-        let default_layout = match std::fs::read_to_string(format!("utils/layouts/default.conf")) {
-            Ok(layout) => layout,
-            Err(_) => return Err("Default Layout Not Set"),
+        let Ok(default_layout) = std::fs::read_to_string(format!("utils/layouts/default.conf"))
+        else {
+            return Err("Default Layout Not Set");
         };
 
         // Note: This hashmap is never needed throughout the program so it is not included in data struct

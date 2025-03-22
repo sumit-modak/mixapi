@@ -9,7 +9,7 @@ pub mod ui;
 pub fn main(args: crate::args::TuiArgs, _cfg: &mut crate::AppConfig) -> anyhow::Result<()> {
     let data = layoutdata::LayoutData::new(args.layout).unwrap();
     // this is taking up a bit of execution time (because it is getting reinitialized) but this is the only way I made this work
-    let mut app: tuistate::TuiState = Default::default();
+    let mut app = tuistate::TuiState::default();
 
     // startup: Enable raw mode for the terminal, giving us fine control over user input
     crossterm::terminal::enable_raw_mode()?;
