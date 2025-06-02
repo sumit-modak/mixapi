@@ -40,7 +40,7 @@ async fn handle_socket(mut socket: WebSocket) {
         // }
         tokio::time::sleep(tokio::time::Duration::new(2, 0)).await;
         if socket
-            .send(Message::Text("chutiya naki?".to_string()))
+            .send(Message::Text("what's up?".into()))
             .await
             .is_err()
         {
@@ -70,7 +70,7 @@ async fn handle_websocket(mut socket: WebSocket) {
 
                 // Echo the message back to the client
                 if socket
-                    .send(Message::Text(format!("Echo: {}", text)))
+                    .send(Message::Text(format!("Echo: {}", text).into()))
                     .await
                     .is_err()
                 {

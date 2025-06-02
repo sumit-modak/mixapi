@@ -1,8 +1,8 @@
 use axum::{
-    extract::{Host, Request},
-    http::{header, HeaderMap, HeaderName, StatusCode},
-    response::{AppendHeaders, Html, IntoResponse},
     Json,
+    extract::Request,
+    http::{HeaderMap, HeaderName, StatusCode, header},
+    response::{AppendHeaders, Html, IntoResponse},
 };
 use serde::Serialize;
 
@@ -34,12 +34,6 @@ pub async fn set_headers(mut req: Request) -> (StatusCode, HeaderMap, Html<Strin
     h.append("foo", "bar".parse().unwrap());
 
     (StatusCode::OK, h, Html("hello world".to_string()))
-}
-
-///////////////////////////////////////////////////////////////
-
-pub async fn extract_host(Host(host): Host) -> Html<String> {
-    Html(host)
 }
 
 ///////////////////////////////////////////////////////////////

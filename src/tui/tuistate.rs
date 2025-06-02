@@ -1,5 +1,4 @@
 use super::layoutdata::LayoutData;
-use ratatui::layout::Rect;
 use std::collections::VecDeque;
 
 #[derive(Default)]

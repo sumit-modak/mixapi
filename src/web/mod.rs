@@ -11,9 +11,9 @@ mod websock;
 ///////////////////////////////////////////////////////////////
 
 use axum::{
+    Extension, Router,
     http::Method,
     routing::{get, post},
-    Extension, Router,
 };
 use tower_http::cors::{Any, CorsLayer};
 
@@ -47,7 +47,6 @@ pub fn all_routes() -> Router {
         // headers
         .route("/extract_headers", get(headers::extract_headers))
         .route("/set_headers", get(headers::set_headers))
-        .route("/extract_host", get(headers::extract_host))
         .route("/array_headers", get(headers::array_headers))
         .route("/append_headers", get(headers::append_headers))
         // into response

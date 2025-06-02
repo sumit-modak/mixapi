@@ -1,4 +1,3 @@
-use rand::Rng;
 use std::collections::HashMap;
 use std::iter::zip;
 
@@ -13,10 +12,10 @@ pub struct LayoutData {
 
 impl LayoutData {
     pub fn new(a: String) -> Result<LayoutData, &'static str> {
-        let Ok(target_layout) = std::fs::read_to_string(format!("utils/layouts/{a}")) else {
+        let Ok(target_layout) = std::fs::read_to_string(format!("assets/layouts/{a}")) else {
             return Err("Layout Not Found");
         };
-        let Ok(default_layout) = std::fs::read_to_string(format!("utils/layouts/default.conf"))
+        let Ok(default_layout) = std::fs::read_to_string(format!("assets/layouts/default.conf"))
         else {
             return Err("Default Layout Not Set");
         };
@@ -49,7 +48,7 @@ impl LayoutData {
 
         // creating the mapped wordlist
         let mut words = HashMap::with_capacity(1000);
-        if let Ok(wordlist) = std::fs::read_to_string("utils/wordlists/1k.txt") {
+        if let Ok(wordlist) = std::fs::read_to_string("assets/wordlists/1k.txt") {
             let mut s = wordlist.lines();
             for i in 0..999 {
                 let s1 = s.next().unwrap().to_owned();
@@ -72,8 +71,8 @@ impl LayoutData {
     }
 
     pub fn get_random_pair(&self) -> (&String, &String) {
-        let mut rng = rand::thread_rng();
-        let res = self.words.get(&(rng.gen::<u16>() % 999)).unwrap();
+        let num = rand::random::<u16>();
+        let res = self.words.get(&(num % 999)).unwrap();
         (&res.0, &res.1)
     }
 }
