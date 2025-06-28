@@ -1,3 +1,5 @@
+use colored::Colorize;
+
 pub fn fetch_os_info() -> String {
     let file = std::fs::read_to_string("/etc/os-release").unwrap();
     let mut name = "";
@@ -16,5 +18,5 @@ pub fn fetch_os_info() -> String {
             }
         }
     }
-    format!("OS: {name} {version}\n")
+    format!("{}: {} {}\n", "OS".red(), name, version)
 }

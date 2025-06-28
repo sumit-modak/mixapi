@@ -1,3 +1,4 @@
+use colored::Colorize;
 use std::path::PathBuf;
 
 pub fn fetch_cpu() -> String {
@@ -47,5 +48,12 @@ pub fn fetch_cpu() -> String {
             }
         }
     }
-    format!("CPU: {cpu_model} ({cores}) @ {freq}GHz\n")
+    format!(
+        "{}: {} ({}) @ {}{}\n",
+        "CPU".red(),
+        cpu_model,
+        cores,
+        freq,
+        "GHz"
+    )
 }

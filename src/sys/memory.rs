@@ -1,3 +1,5 @@
+use colored::Colorize;
+
 pub fn fetch_memory() -> String {
     let meminfo = std::fs::read_to_string("/proc/meminfo").unwrap();
     let lines = meminfo.lines();
@@ -26,9 +28,12 @@ pub fn fetch_memory() -> String {
     }
 
     format!(
-        "MemTotal: {}\nMemUsed: {}\nMemAvail: {}\n",
+        "{}: {}\n{}: {}\n{}: {}\n",
+        "MemTotal".red(),
         super::formatted_memory(mem_total),
+        "MemUsed".red(),
         super::formatted_memory(mem_used),
+        "MemAvail".red(),
         super::formatted_memory(mem_total - mem_used)
     )
 }

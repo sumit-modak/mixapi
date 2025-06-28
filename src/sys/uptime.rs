@@ -1,3 +1,5 @@
+use colored::Colorize;
+
 pub fn fetch_uptime() -> String {
     let uptime = std::fs::read_to_string("/proc/uptime").unwrap();
     let uptime_secs = uptime
@@ -11,5 +13,12 @@ pub fn fetch_uptime() -> String {
     let (hours, rem_secs) = (rem_secs / 3600, rem_secs % 3600);
     let (mins, secs) = (rem_secs / 60, rem_secs % 60);
 
-    format!("Uptime: {days}d {hours}h {mins}m {secs}s\n")
+    format!(
+        "{}: {}d {}h {}m {}s\n",
+        "Uptime".red(),
+        days,
+        hours,
+        mins,
+        secs
+    )
 }

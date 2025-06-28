@@ -1,5 +1,7 @@
+use colored::Colorize;
+
 pub fn fetch_prompt() -> String {
-    let user = std::env::var("USER").unwrap();
-    let hostname = std::env::var("HOSTNAME").unwrap();
-    format!("{user}@{hostname}\n")
+    let user = env!("USER");
+    let hostname = std::fs::read_to_string("/etc/hostname").unwrap();
+    format!("{}{}{}\n", user.yellow(), "@".green(), hostname.blue())
 }
